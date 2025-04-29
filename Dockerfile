@@ -1,7 +1,7 @@
 #
 # Start from golang base image
 #
-FROM golang:1.24-bullseye as builder
+FROM golang:1.24-bullseye AS builder
 
 # Set the current working directory inside the container
 WORKDIR /build
