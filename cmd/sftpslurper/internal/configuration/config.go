@@ -13,11 +13,14 @@ type Config struct {
 	LogLevel string `flag:"loglevel" env:"LOG_LEVEL" default:"debug" description:"The log level to use. Valid values are 'debug', 'info', 'warn', and 'error'"`
 	Host     string `flag:"h" env:"HOST" default:"localhost:8080" description:"The address and port to bind the HTTP server to"`
 	SftpHost string `flag:"sftph" env:"SFTP_HOST" default:"localhost:2200" description:"Address to listen on for the SFTP server"`
+	Version  string
 }
 
-func LoadConfig() Config {
+func LoadConfig(version string) Config {
 	config := Config{}
 	configinator.Behold(&config)
+
+	config.Version = version
 	return config
 }
 

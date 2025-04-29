@@ -2,3 +2,4 @@
 cmd/sftpslurper/uploads/*
 !cmd/sftpslurper/uploads/.gitkeep
 cmd/sftpslurper/tmp
+.env

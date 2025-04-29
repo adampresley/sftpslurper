@@ -10,4 +10,5 @@ type BaseViewModel struct {
 	IsWarning          bool
 	IsHtmx             bool
 	JavascriptIncludes []rendering.JavascriptInclude
+	Version            string
 }

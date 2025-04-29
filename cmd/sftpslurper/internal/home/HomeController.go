@@ -50,6 +50,7 @@ func (c HomeController) HomePage(w http.ResponseWriter, r *http.Request) {
 
 	viewData := viewmodels.Home{
 		BaseViewModel: viewmodels.BaseViewModel{
+			Version: c.config.Version,
 			Message: "",
 			IsHtmx:  httphelpers.IsHtmx(r),
 			JavascriptIncludes: []rendering.JavascriptInclude{
@@ -225,6 +226,7 @@ func (c HomeController) AboutPage(w http.ResponseWriter, r *http.Request) {
 
 	viewData := viewmodels.AboutPage{
 		BaseViewModel: viewmodels.BaseViewModel{
+			Version:            c.config.Version,
 			Message:            "",
 			IsHtmx:             httphelpers.IsHtmx(r),
 			JavascriptIncludes: []rendering.JavascriptInclude{},

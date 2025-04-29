@@ -29,7 +29,7 @@ var (
 )
 
 func main() {
-	config := configuration.LoadConfig()
+	config := configuration.LoadConfig(Version)
 	setupLogger(&config, Version)
 
 	slog.Info("configuration loaded",
