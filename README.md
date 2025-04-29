@@ -31,7 +31,48 @@ SFTP Slurper can be configured using command-line flags or environment variables
 
 ### Prerequisites
 
-- Go 1.24 or higher
+- Go 1.24 or higher (if building from source)
+- Docker
+
+### Running With Docker
+
+The easiest way to get started with SFTP Slurper is to use Docker Compose. To begin, you will need `compose.yml` and `.env` files. Put these into a directory named `sftpslurper`. Also create a subdirectory named `uploads`.
+
+```bash
+mkdir -p ./sftpslurper/uploads
+cd sftpslurper
+```
+
+#### compose.yml
+
+```yaml
+services:
+  sftpslurper:
+    container_name: "sftpslurper"
+    image: adampresley/sftpslurper:latest
+    env_file:
+      - ./.env
+    user: "1000:1000"
+    ports:
+      - 8080:8080
+      - 2222:2222
+    volumes:
+      - ./uploads:/dist/uploads
+```
+
+#### .env
+
+```text
+LOG_LEVEL="info"
+HOST="0.0.0.0:8080"
+SFTP_HOST="0.0.0.0:2222"
+```
+
+Now start it up!
+
+```bash
+docker compose up --build
+```
 
 ### Building from Source
 

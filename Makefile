@@ -25,5 +25,5 @@ docker-tag: ## Builds a docker image and tags a release. It is then pushed up to
 	git push origin ${VERSION}
 	@echo "Building ${VERSION}"
 	docker buildx use mybuilder
-	docker buildx build -f Dockerfile --platform linux/amd64,linux/arm64 -t github.com/adampresley/sftpslurper:${VERSION} -t github.com/adampresley/sftpslurper:latest --push .
+	docker buildx build -f Dockerfile --platform linux/amd64,linux/arm64 -t adampresley/sftpslurper:${VERSION} -t adampresley/sftpslurper:latest --push .
 
