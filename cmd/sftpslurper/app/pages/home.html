@@ -1,0 +1,63 @@
+{{if .IsHtmx}}
+{{template "no-layout" .}}
+{{else}}
+{{template "layouts/layout" .}}
+{{end}}
+
+{{define "title"}}About{{end}}
+{{define "content"}}
+
+{{template "components/display-messages" .}}
+
+<table class="striped">
+   <thead>
+      <tr>
+         <th scope="col" style="width: 16px;">&nbsp;</th>
+         <th scope="col" style="width: 60%;">Name</th>
+         <th scope="col" style="width: 20%;">Date</th>
+         <th scope="col" style="width: 20%;">Size</th>
+      </tr>
+   </thead>
+   <tbody>
+      {{if len .Root}}
+      <tr>
+         <td><i class="icon icon-folder"></i></td>
+         <th scope="row">
+            <a hx-get="/?root={{.Parent}}" hx-push-url="true" hx-target="#mainContent">
+               .. <i class="icon icon-up-dir" style="width: 16px; height: 16px;"></i>
+            </a>
+         </th>
+         <td span="2">&nbsp;</td>
+      </tr>
+      {{end}}
+      {{range .Files}}
+      <tr>
+         <td><i class="{{.Icon}}"></i></td>
+         <th scope="row">
+            {{if .IsDirectory}}
+            <a hx-get="/?root={{.DirPath}}" hx-push-url="true" hx-target="#mainContent">{{.Name}}</a>
+            {{else}}
+            {{if .CanBePreviewed}}
+            <a href="javascript:void(0)" class="fileLink" data-ext="{{.Ext}}" data-root="{{$.Root}}"
+               data-name="{{.Name}}">{{.Name}}</a>
+            {{else}}
+            <a href="/uploads?path={{$.Root}}/{{.Name}}">{{.Name}}</a>
+            {{end}}
+            {{end}}
+         </th>
+         <td>{{.Date}}</td>
+         <td>{{.Size}}</td>
+      </tr>
+      {{end}}
+   </tbody>
+</table>
+
+<dialog-ui id="previewWindow" class="hidden">
+   <div slot="body">
+      <div id="previewBody">
+         <p>BODY</p>
+      </div>
+   </div>
+</dialog-ui>
+
+{{end}}

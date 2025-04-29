@@ -1,0 +1,19 @@
+{{if .IsHtmx}}
+{{template "no-layout" .}}
+{{else}}
+{{template "layouts/layout" .}}
+{{end}}
+
+{{define "title"}}About{{end}}
+{{define "content"}}
+
+<section>
+   <p>
+      SFTP Slurper is a lightweight, configurable SFTP server designed for local testing
+      of SFTP connections and file uploads. It provides a simple way to simulate an SFTP
+      server environment without the need for complex setup, making it ideal for development
+      and testing scenarios.
+   </p>
+</section>
+
+{{end}}

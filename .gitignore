@@ -1,3 +1,4 @@
 .DS_Store
-uploads/*
-!uploads/.gitkeep
+cmd/sftpslurper/uploads/*
+!cmd/sftpslurper/uploads/.gitkeep
+cmd/sftpslurper/tmp

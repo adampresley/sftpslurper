@@ -1,4 +1,4 @@
-package main
+package sftp
 
 import (
 	"fmt"
@@ -12,15 +12,15 @@ import (
 )
 
 /*
- * SFTPHandler implements all the required SFTP interfaces
+ * Handler implements all the required SFTP interfaces
  * for putting, listing, getting, and deleting files.
  */
-type SFTPHandler struct {
+type Handler struct {
 	RootPath string
 }
 
 // Fileread implements sftp.FileReader
-func (h *SFTPHandler) Fileread(r *sftp.Request) (io.ReaderAt, error) {
+func (h *Handler) Fileread(r *sftp.Request) (io.ReaderAt, error) {
 	log.Printf("Read request for: %s", r.Filepath)
 
 	// Construct the full path for the file
@@ -37,7 +37,7 @@ func (h *SFTPHandler) Fileread(r *sftp.Request) (io.ReaderAt, error) {
 }
 
 // Filewrite implements sftp.FileWriter
-func (h *SFTPHandler) Filewrite(r *sftp.Request) (io.WriterAt, error) {
+func (h *Handler) Filewrite(r *sftp.Request) (io.WriterAt, error) {
 	log.Printf("Write request for: %s", r.Filepath)
 
 	// Create the upload directory if it doesn't exist
@@ -67,7 +67,7 @@ func (h *SFTPHandler) Filewrite(r *sftp.Request) (io.WriterAt, error) {
 }
 
 // Filecmd implements sftp.FileCmder
-func (h *SFTPHandler) Filecmd(r *sftp.Request) error {
+func (h *Handler) Filecmd(r *sftp.Request) error {
 	log.Printf("Command request: %s on %s", r.Method, r.Filepath)
 
 	// Construct the full path
@@ -119,7 +119,7 @@ func (h *SFTPHandler) Filecmd(r *sftp.Request) error {
 }
 
 // Filelist implements sftp.FileLister
-func (h *SFTPHandler) Filelist(r *sftp.Request) (sftp.ListerAt, error) {
+func (h *Handler) Filelist(r *sftp.Request) (sftp.ListerAt, error) {
 	log.Printf("List request for: %s", r.Filepath)
 
 	// Construct the full path

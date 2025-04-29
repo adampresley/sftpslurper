@@ -14,11 +14,9 @@ All uploaded files are stored in a configurable local directory, making it easy 
 
 ## Features
 
-- Simple authentication with configurable username and password
+- Simple authentication with predefined username and password
 - Customizable listening address and port
-- Configurable upload directory
 - Support for standard SFTP operations (put, get, list, delete)
-- Comprehensive logging of connection attempts and operations
 
 ## Configuration Options
 
@@ -26,22 +24,20 @@ SFTP Slurper can be configured using command-line flags or environment variables
 
 | Option | Flag | Environment Variable | Default Value | Description |
 |--------|------|----------------------|---------------|-------------|
-| Address | `--address` | `ADDRESS` | `localhost:22` | Address and port to listen on |
-| Upload Folder | `--uploadpath` | `UPLOAD_PATH` | `./uploads` | Directory where uploaded files are stored |
-| Username | `-u` | `FTP_USER` | `testuser` | Username for SFTP authentication |
-| Password | `-p` | `FTP_PASSWORD` | `password` | Password for SFTP authentication |
+| Web Host | `-h` | `HOST` | `localhost:8080` | Address and port to listen on for the Web interface |
+| SFTP Address | `-sftph` | `SFTP_HOST` | `localhost:2200` | Address and port to listen on for the SFTP server |
 
 ## Installation
 
 ### Prerequisites
 
-- Go 1.18 or higher
+- Go 1.24 or higher
 
 ### Building from Source
 
 ```bash
 git clone https://github.com/adampresley/sftpslurper.git
-cd sftpslurper
+cd sftpslurper/cmd/sftpslurper
 go build
 ```
 
@@ -53,27 +49,33 @@ Run the server with default settings:
 ./sftpslurper
 ```
 
-This will start an SFTP server on localhost:22 with the username testuser and password password. Files will be uploaded to the ./uploads directory.
+This will start an SFTP server on localhost:2200 with the username testuser and password password. Files will be uploaded to the ./uploads directory. To view the web interface visit `http://localhost:8080`.
 
 ### Custom Configuration
 
 Using command-line flags:
 
-`./sftpslurper --address=0.0.0.0:2222 --uploadpath=/tmp/sftp-uploads -u myuser -p mysecretpassword`
+`./sftpslurper -h=0.0.0.0:8080 -sftph=0.0.0.0:2222
 
 Using environment variables:
 
-`ADDRESS=0.0.0.0:2222 UPLOAD_PATH=/tmp/sftp-uploads FTP_USER=myuser FTP_PASSWORD=mysecretpassword ./sftpslurper`
+`HOST=0.0.0.0:8080 SFTP_HOST=0.0.0.0:2222 ./sftpslurper`
+
+#### Note About *nix Systems
+_On most Unix-like systems (Linux, MacOS), trying to bind to a port lower than 1000 will require administrative privileges._
 
 ### Connecting to the Server
 
-You can connect to the server using any SFTP client. For example, using the command-line sftp client:
+You can connect to the server using any SFTP client. For example, using the command-line sftp client. The user name and password are:
 
-`sftp -P 22 testuser@localhost`
+- **User name**: `user`
+- **Password**: `password`
+
+`sftp -P 22 user@localhost`
 
 Or with custom port:
 
-`sftp -P 2222 myuser@localhost`
+`sftp -P 2222 user@localhost`
 
 Stopping the Server
 
@@ -112,6 +114,8 @@ However, it is **not recommended** for production use as it:
 - Generates ephemeral RSA keys on startup
 - Uses simple password authentication
 - May not implement all security best practices required for production environments
+
+**USE AT YOUR OWN RISK!**
 
 ## License
 
