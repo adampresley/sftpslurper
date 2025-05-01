@@ -20,6 +20,7 @@ type HomeHandlers interface {
 	AboutPage(w http.ResponseWriter, r *http.Request)
 	PreviewContent(w http.ResponseWriter, r *http.Request)
 	ServeFile(w http.ResponseWriter, r *http.Request)
+	DeleteFile(w http.ResponseWriter, r *http.Request)
 }
 
 type HomeControllerConfig struct {
@@ -219,6 +220,62 @@ func (c HomeController) PreviewContent(w http.ResponseWriter, r *http.Request) {
 	}
 
 	httphelpers.TextOK(w, markup)
+}
+
+/*
+DELETE /uploads?root={root}&filename={filename}&isdir={isdir}
+*/
+func (c HomeController) DeleteFile(w http.ResponseWriter, r *http.Request) {
+	root := strings.TrimSpace(httphelpers.GetFromRequest[string](r, "root"))
+	filename := httphelpers.GetFromRequest[string](r, "name")
+	isdir := httphelpers.GetFromRequest[bool](r, "isdir")
+
+	// Construct the full path
+	fullPath := filepath.Join(root, filename)
+
+	// Sanitize and validate the path
+	cleanPath, err := c.config.SanitizePath(fullPath)
+	if err != nil {
+		slog.Error("invalid file path for deletion", "error", err, "path", fullPath)
+		http.Error(w, "Invalid file path", http.StatusBadRequest)
+		return
+	}
+
+	slog.Info("attempting to delete", "path", cleanPath, "isDirectory", isdir, "fullpath", fullPath)
+
+	// Check if file/directory exists
+	_, err = os.Stat(cleanPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			slog.Error("file or directory not found for deletion", "path", cleanPath)
+			http.Error(w, "File or directory not found", http.StatusNotFound)
+			return
+		}
+
+		slog.Error("error accessing file or directory for deletion", "error", err, "path", cleanPath)
+		http.Error(w, "Error accessing file or directory", http.StatusInternalServerError)
+		return
+	}
+
+	// Delete the file or directory
+	var deleteErr error
+	if isdir {
+		slog.Info("deleting directory", "path", cleanPath)
+		deleteErr = os.RemoveAll(cleanPath)
+	} else {
+		slog.Info("deleting file", "path", cleanPath)
+		deleteErr = os.Remove(cleanPath)
+	}
+
+	if deleteErr != nil {
+		slog.Error("error deleting file or directory", "error", deleteErr, "path", cleanPath, "isDirectory", isdir)
+		http.Error(w, fmt.Sprintf("Error deleting %s: %v", filename, deleteErr), http.StatusInternalServerError)
+		return
+	}
+
+	// Return success response
+	w.WriteHeader(http.StatusOK)
+	httphelpers.TextOK(w, fmt.Sprintf("Successfully deleted %s", filename))
 }
 
 func (c HomeController) AboutPage(w http.ResponseWriter, r *http.Request) {

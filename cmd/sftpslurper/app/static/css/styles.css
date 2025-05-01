@@ -43,6 +43,34 @@ dialog-ui {
    padding: 2rem;
 }
 
+/* Confirmer */
+.confirm-container {
+   background-color: var(--pico-card-background-color);
+   border: 1px solid var(--pico-card-border-color);
+   box-shadow: var(--pico-box-shadow);
+   max-width: 800px;
+   width: 40%;
+
+   p {
+      color: var(--pico-color);
+   }
+
+   button {
+      padding-bottom: 2rem;
+   }
+}
+
+/* Alerter */
+.alert-card {
+   background-color: var(--pico-card-background-color);
+   color: var(--pico-color);
+
+   svg {
+      width: 3rem;
+      height: 3rem;
+   }
+}
+
 /* Icons */
 .icon {
    display: inline-block;
@@ -95,4 +123,8 @@ dialog-ui {
 
 .icon-up-dir {
    --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M20 6v7.5a6.5 6.5 0 1 1-13 0V7.83l-3.09 3.09L2.5 9.5L8 4l5.5 5.5l-1.41 1.41L9 7.83v5.67C9 16 11 18 13.5 18s4.5-2 4.5-4.5V6z'/%3E%3C/svg%3E");
+}
+
+.icon-trash {
+   --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z'/%3E%3C/svg%3E");
 }

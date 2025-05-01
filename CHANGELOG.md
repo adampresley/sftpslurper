@@ -2,7 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.1.1] - 2025-04-29
+## v0.2.0 - 2025-04-30
+
+### Added
+
+- Users can now delete files and folders from the web UI
+
+### Fixed
+
+- Fixed an invalid colspan cause the table to look stupid
+
+## v0.1.1 - 2025-04-29
 
 ### Added
 

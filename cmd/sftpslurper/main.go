@@ -71,6 +71,7 @@ func main() {
 		{Path: "GET /about", HandlerFunc: homeController.AboutPage},
 		{Path: "GET /uploads", HandlerFunc: homeController.ServeFile},
 		{Path: "GET /preview", HandlerFunc: homeController.PreviewContent},
+		{Path: "DELETE /uploads", HandlerFunc: homeController.DeleteFile},
 	}
 
 	routerConfig := mux.RouterConfig{
